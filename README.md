@@ -75,3 +75,4 @@ pip install -r requirements.txt
 ## License
 
 This project is a demo prototype and does not include a license file.
+# Shop-Go
