@@ -39,17 +39,22 @@ pip install -r requirements.txt
    pip install -r requirements.txt
    ```
 
-2. Set your Anthropic API key:
+2. Create a `.env` file in the project root with your Anthropic key:
    ```bash
-   export ANTHROPIC_API_KEY="sk-..."
+   echo 'ANTHROPIC_API_KEY="sk-..."' > .env
    ```
 
-3. Run the app:
+3. Load the `.env` file before running the app:
+   ```bash
+   source .env
+   ```
+
+4. Run the app:
    ```bash
    python app.py
    ```
 
-4. Open the local Gradio URL shown in the terminal.
+5. Open the local Gradio URL shown in the terminal.
 
 ## How It Works
 
