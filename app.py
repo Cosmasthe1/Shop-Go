@@ -22,6 +22,29 @@ import gradio as gr
 
 from orchestrator_agent import ShopGoOrchestrator, ShopGoResult
 
+
+def _load_dotenv(path: str = ".env") -> None:
+    if not os.path.exists(path):
+        return
+
+    with open(path, "r", encoding="utf-8") as f:
+        for line in f:
+            line = line.strip()
+            if not line or line.startswith("#") or "=" not in line:
+                continue
+
+            key, value = line.split("=", 1)
+            key = key.strip()
+            value = value.strip()
+            if (value.startswith('"') and value.endswith('"')) or (
+                value.startswith("'") and value.endswith("'")
+            ):
+                value = value[1:-1]
+
+            if key and value and key not in os.environ:
+                os.environ[key] = value
+
+
 # ─────────────────────────────────────────────────────────────────────────────
 # Shared state
 # ─────────────────────────────────────────────────────────────────────────────
@@ -468,10 +491,12 @@ with gr.Blocks(css=CSS, title="Shop Go — AI Price Comparison") as demo:
 # Launch
 # ─────────────────────────────────────────────────────────────────────────────
 if __name__ == "__main__":
+    _load_dotenv()
     if not os.environ.get("ANTHROPIC_API_KEY"):
         print("⚠️  Set ANTHROPIC_API_KEY before running.")
     demo.queue().launch(
         server_name="0.0.0.0",
         server_port=int(os.environ.get("PORT", 7860)),
         share=False,
+        css=CSS,
     )
